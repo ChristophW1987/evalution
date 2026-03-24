@@ -138,6 +138,7 @@ input[type=file]{display:none}
   <div id="header">
     <div class="app-title"><span>EVA</span>lution</div>
     <div class="app-subtitle">Gemeinsam durchstarten</div>
+    <div style="font-size:9px;color:rgba(168,158,126,0.4)">v1.4</div>
   </div>
   <div id="content">
 
@@ -490,7 +491,13 @@ const FALLBACK_RECIPES=[
   {title:'Zucchini-Omelett',time:'15 Min.',tags:['vegetarisch','eiweißreich','schnell'],ingredients:['3 Eier','1 Zucchini','1 Knoblauchzehe','Frische Kräuter','Salz, Pfeffer','etwas Öl'],steps:'Zucchini raspeln und ausdrücken. Mit Eiern, Knoblauch und Kräutern verquirlen. In der Pfanne bei mittlerer Hitze 4 Min. je Seite goldbraun braten.'},
 ];
 
-function resetSeenRecipes(){seenRecipes=[];localStorage.setItem('eva-seen-recipes',JSON.stringify(seenRecipes));fetchRecipe();}
+function resetSeenRecipes(){
+  seenRecipes=[];
+  localStorage.removeItem('eva-seen-recipes');
+  currentRecipe=null;
+  document.getElementById('recipe-area').innerHTML='<div class="loading-recipe">Lade neues Rezept…</div>';
+  setTimeout(fetchRecipe,100);
+}
 
 async function fetchRecipe(){
   const area=document.getElementById('recipe-area');
