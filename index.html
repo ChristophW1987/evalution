@@ -27,8 +27,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .section{display:none;animation:fadeIn .3s ease}
 .section.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-/* MOTIVATION */
 .photo-slot{border-radius:var(--radius);border:1.5px dashed rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;background:var(--bg2)}
 .photo-slot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 .photo-slot .slot-label{font-size:11px;color:var(--text2);text-align:center;padding:8px;z-index:1}
@@ -39,8 +37,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .photo-slot:has(img) .add-icon,.photo-slot:has(img) .slot-label{display:none}
 .quote-card{background:var(--bg2);border:1px solid rgba(201,168,76,0.2);border-radius:var(--radius);padding:20px;margin-bottom:16px;text-align:center}
 .quote-card p{font-size:15px;color:var(--creme);line-height:1.7;font-style:italic}
-
-/* COUNTDOWN */
 .cd-box{background:var(--bg2);border:1px solid rgba(201,168,76,0.2);border-radius:var(--radius);padding:16px;margin:16px 0 12px}
 .cd-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .cd-label-small{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
@@ -50,8 +46,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .cd-sublabel{font-size:13px;color:var(--text2)}
 .cd-progress-wrap{height:6px;background:rgba(255,255,255,0.08);border-radius:3px}
 .cd-progress-bar{height:100%;border-radius:3px;background:var(--gold);transition:width .5s}
-
-/* TRAINING */
 .day-card{background:var(--bg2);border:1px solid rgba(201,168,76,0.15);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
 .day-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;user-select:none}
 .day-header-left{display:flex;align-items:center;gap:10px}
@@ -93,8 +87,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .progress-bar-wrap{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:12px 0 4px}
 .progress-bar{height:100%;border-radius:2px;background:var(--gold)}
 .progress-label{font-size:11px;color:var(--text2);text-align:right}
-
-/* ERNÄHRUNG */
 .streak-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
 .streak-item{background:var(--bg2);border:1px solid rgba(201,168,76,0.15);border-radius:var(--radius);padding:12px 8px;text-align:center;cursor:pointer;position:relative}
 .streak-item.active-today{border-color:rgba(109,191,136,0.5)}
@@ -114,8 +106,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .btn-new{background:var(--gold);color:#0f1a12;border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer}
 .btn-new:active{transform:scale(.97)}
 .loading-recipe{text-align:center;padding:30px 0;color:var(--text2);font-size:13px}
-
-/* CHARTS */
 .chart-card{background:var(--bg2);border:1px solid rgba(201,168,76,0.15);border-radius:var(--radius);padding:16px;margin-bottom:16px}
 .chart-card h3{font-size:13px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
 .chart-wrap{position:relative;height:180px}
@@ -138,11 +128,9 @@ input[type=file]{display:none}
   <div id="header">
     <div class="app-title"><span>EVA</span>lution</div>
     <div class="app-subtitle">Gemeinsam durchstarten</div>
-    <div style="font-size:9px;color:rgba(168,158,126,0.4)">v1.4</div>
+    <div style="font-size:9px;color:rgba(168,158,126,0.4)">v2.0</div>
   </div>
   <div id="content">
-
-    <!-- MOTIVATION -->
     <div id="sec-motivation" class="section active">
       <div class="cd-box">
         <div class="cd-top">
@@ -176,12 +164,10 @@ input[type=file]{display:none}
       </div>
     </div>
 
-    <!-- TRAINING -->
     <div id="sec-training" class="section">
       <div style="padding-top:20px" id="training-content"></div>
     </div>
 
-    <!-- ERNÄHRUNG -->
     <div id="sec-food" class="section">
       <div style="padding-top:20px">
         <div class="food-section-title">🌿 Wie war dein Tag, Eva?</div>
@@ -199,7 +185,6 @@ input[type=file]{display:none}
       </div>
     </div>
 
-    <!-- TRACKING -->
     <div id="sec-tracking" class="section">
       <div style="padding-top:20px">
         <div class="chart-card"><h3>🚶 Walken — Minuten</h3><div class="chart-wrap"><canvas id="chart-walk"></canvas></div></div>
@@ -229,18 +214,16 @@ input[type=file]{display:none}
     </button>
     <button class="tab" onclick="switchTab('training',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round">
-        <rect x="2" y="11" width="4" height="2" rx="1"/>
-        <rect x="18" y="11" width="4" height="2" rx="1"/>
-        <rect x="6" y="8" width="3" height="8" rx="1.5"/>
-        <rect x="15" y="8" width="3" height="8" rx="1.5"/>
+        <rect x="2" y="11" width="4" height="2" rx="1"/><rect x="18" y="11" width="4" height="2" rx="1"/>
+        <rect x="6" y="8" width="3" height="8" rx="1.5"/><rect x="15" y="8" width="3" height="8" rx="1.5"/>
         <rect x="9" y="10" width="6" height="4" rx="1"/>
       </svg>
       Training
     </button>
     <button class="tab" onclick="switchTab('food',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 21C8 21 5 17.5 5 13.5c0-3 1.5-5.5 4-7 .5 1.5 1.5 2.5 3 2.5s2.5-1 3-2.5c2.5 1.5 4 4 4 7 0 4-3 7.5-7 7.5z"/>
-        <path d="M12 7c0-2 1-4 3-5"/>
+        <path d="M12 2c-1 0-2 .5-2.5 1.5C8 5 8 7 9 8.5c.5.8 1 1.2 1 2V19h4v-8.5c0-.8.5-1.2 1-2 1-1.5 1-3.5-.5-5C14 2.5 13 2 12 2z"/>
+        <path d="M12 2v3"/><line x1="10" y1="19" x2="14" y2="19"/>
       </svg>
       Ernährung
     </button>
@@ -253,13 +236,52 @@ input[type=file]{display:none}
 <input type="file" id="file-input" accept="image/*">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
+const RECIPES=[
+  {title:'Wildgulasch mit Wurzelgemüse',time:'20 Min.',tags:['Wild'],ingredients:['300g Wildfleisch vorgekocht','2 Karotten','1 Zwiebel','Tomatenmark','Thymian'],steps:'Zwiebel und Gemüse würfeln, anbraten. Wildfleisch und Tomatenmark dazu, mit Wasser ablöschen, 10 Min. köcheln.'},
+  {title:'Shakshuka',time:'20 Min.',tags:['vegetarisch'],ingredients:['4 Eier','1 Dose Tomaten','1 Paprika','1 Zwiebel','Kreuzkümmel','Feta'],steps:'Zwiebel und Paprika anbraten, Tomaten dazu, köcheln. Eier in die Sauce schlagen, 5 Min. stocken lassen.'},
+  {title:'Hirschsteak mit Blattsalat',time:'15 Min.',tags:['Wild'],ingredients:['200g Hirschsteak','Blattsalat','Balsamico','Olivenöl','Rosmarin'],steps:'Steak 3 Min. je Seite braten, ruhen lassen. Salat mit Balsamico anmachen, Steak darauf servieren.'},
+  {title:'Rinderstreifen asiatisch',time:'15 Min.',tags:['Rind'],ingredients:['250g Rinderfilet','2 Knoblauchzehen','Sojasoße','Sesamöl','Frühlingszwiebeln'],steps:'Rinderstreifen mit Knoblauch scharf anbraten, mit Sojasoße und Sesamöl ablöschen. Mit Frühlingszwiebeln bestreuen.'},
+  {title:'Rührei mit Feta und Tomaten',time:'10 Min.',tags:['vegetarisch'],ingredients:['3 Eier','80g Feta','2 Tomaten','Schnittlauch','Butter'],steps:'Eier cremig rühren, Feta und Tomaten kurz vor Ende unterheben. Mit Schnittlauch servieren.'},
+  {title:'Wildschweingeschnetzeltes',time:'20 Min.',tags:['Wild'],ingredients:['250g Wildschwein','1 Zwiebel','Champignons','Sauerrahm','Thymian'],steps:'Zwiebeln und Pilze anbraten, Fleisch dazu. Mit Sauerrahm verfeinern, 5 Min. ziehen lassen.'},
+  {title:'Rinderhack-Lettuce-Wraps',time:'15 Min.',tags:['Rind'],ingredients:['250g Rinderhack','Eisbergsalat','Sojasoße','Sesamöl','Ingwer','Frühlingszwiebeln'],steps:'Hack mit Ingwer krümelig braten, würzen. In Salatblätter füllen, mit Frühlingszwiebeln bestreuen.'},
+  {title:'Tomatensuppe mit Parmesan',time:'15 Min.',tags:['vegetarisch'],ingredients:['1 Dose Tomaten','1 Zwiebel','Gemüsebrühe','Basilikum','Parmesan'],steps:'Zwiebel anbraten, Tomaten und Brühe dazu, 10 Min. köcheln, pürieren. Mit Parmesan servieren.'},
+  {title:'Rehmedaillons mit Kräuterbutter',time:'15 Min.',tags:['Wild'],ingredients:['2 Rehmedaillons','Butter','Rosmarin','Thymian','Knoblauch'],steps:'Medaillons würzen, in Kräuterbutter 3 Min. je Seite braten. 5 Min. ruhen lassen.'},
+  {title:'Spaghetti Carbonara',time:'20 Min.',tags:['vegetarisch'],ingredients:['200g Spaghetti','3 Eier','80g Parmesan','Knoblauch','Olivenöl'],steps:'Pasta kochen. Eier mit Parmesan verquirlen. Knoblauch anbraten, Pasta dazu, vom Herd Ei-Mischung unterrühren.'},
+  {title:'Rinderhack-Paprika-Pfanne',time:'20 Min.',tags:['Rind'],ingredients:['300g Rinderhack','2 Paprika','1 Dose Tomaten','1 Zwiebel','Oregano'],steps:'Hack und Zwiebeln anbraten, Paprika und Tomaten dazu, mit Oregano würzen, 10 Min. köcheln.'},
+  {title:'Miso-Suppe mit Tofu',time:'10 Min.',tags:['vegetarisch'],ingredients:['2 EL Miso-Paste','400ml Wasser','100g Tofu','Frühlingszwiebeln','Sesam'],steps:'Wasser erhitzen, Miso einrühren. Tofu würfeln und dazu. Mit Frühlingszwiebeln und Sesam servieren.'},
+  {title:'Hirschbolognese',time:'20 Min.',tags:['Wild'],ingredients:['250g Hirschfleisch gehackt','1 Dose Tomaten','1 Karotte','1 Zwiebel','200g Pasta'],steps:'Gemüse und Hack anbraten, Tomaten dazu, 15 Min. köcheln. Mit gekochter Pasta servieren.'},
+  {title:'Caprese mit Mozzarella',time:'5 Min.',tags:['vegetarisch'],ingredients:['2 Tomaten','125g Mozzarella','Basilikum','Olivenöl','Fleur de sel'],steps:'Tomaten und Mozzarella in Scheiben anrichten. Mit Basilikum, Öl und Salz vollenden.'},
+  {title:'Rindfleischsuppe asiatisch',time:'20 Min.',tags:['Rind'],ingredients:['200g Rind dünn geschnitten','600ml Brühe','Sojasoße','Ingwer','Frühlingszwiebeln','Reisnudeln'],steps:'Brühe mit Sojasoße und Ingwer aufkochen. Nudeln garen, Fleisch 2 Min. ziehen lassen. Mit Frühlingszwiebeln servieren.'},
+  {title:'Halloumi mit Tomaten-Salsa',time:'10 Min.',tags:['vegetarisch'],ingredients:['200g Halloumi','3 Tomaten','1 rote Zwiebel','Basilikum','Zitrone','Olivenöl'],steps:'Halloumi goldbraun braten. Tomaten und Zwiebel mit Basilikum und Öl mischen, darauf servieren.'},
+  {title:'Wildburger ohne Brötchen',time:'20 Min.',tags:['Wild'],ingredients:['250g Wildhackfleisch','1 Ei','Thymian','Salatblätter','Tomaten','Senf'],steps:'Hack mit Ei und Gewürzen formen, 4 Min. je Seite braten. In Salatblätter wickeln, mit Tomaten servieren.'},
+  {title:'Französische Zwiebelsuppe',time:'20 Min.',tags:['vegetarisch'],ingredients:['3 Zwiebeln','500ml Gemüsebrühe','Butter','Weißwein','Gruyère','Thymian'],steps:'Zwiebeln karamellisieren, mit Wein ablöschen, Brühe dazu, 10 Min. köcheln. Mit Käse servieren.'},
+  {title:'Rindertatar auf Rucola',time:'10 Min.',tags:['Rind'],ingredients:['200g Rindertatar','Rucola','Kapern','Zitrone','Olivenöl'],steps:'Rucola anrichten. Tatar mit Zitronensaft, Öl und Kapern mischen, auf dem Salat platzieren.'},
+  {title:'Avocado-Ei-Toast',time:'10 Min.',tags:['vegetarisch'],ingredients:['2 Eier','1 Avocado','Vollkornbrot','Zitrone','Chiliflocken'],steps:'Brot toasten. Avocado zerdrücken, auf Brot verteilen. Eier braten und darauflegen.'},
+  {title:'Rinderfilet mit Senfkruste',time:'20 Min.',tags:['Rind'],ingredients:['200g Rinderfilet','Dijonsenf','Paniermehl','Rosmarin','Knoblauch'],steps:'Filet scharf anbraten, mit Senf bestreichen, Paniermehl drücken. Bei 180° 8 Min. fertig garen.'},
+  {title:'Japanische Miso-Ramen',time:'15 Min.',tags:['vegetarisch'],ingredients:['2 EL Miso-Paste','500ml Gemüsebrühe','Ramen-Nudeln','1 Ei weich','Frühlingszwiebeln','Sesam'],steps:'Brühe erhitzen, Miso einrühren. Nudeln garen, Ei halbieren. Alles anrichten, mit Sesam bestreuen.'},
+  {title:'Wildragout mit Rotwein',time:'20 Min.',tags:['Wild'],ingredients:['300g Wildragout vorgekocht','100ml Rotwein','1 Zwiebel','Wacholder','Thymian'],steps:'Zwiebeln anbraten, mit Rotwein ablöschen, Fleisch und Gewürze dazu, 10 Min. einkochen.'},
+  {title:'Griechischer Salat',time:'10 Min.',tags:['vegetarisch'],ingredients:['200g Hüttenkäse','2 Tomaten','1 Gurke','Oliven','Oregano','Olivenöl'],steps:'Gemüse würfeln, mit Oliven mischen. Käse drüber, mit Öl und Oregano beträufeln.'},
+  {title:'Hirschtartar mit Kapern',time:'10 Min.',tags:['Wild'],ingredients:['200g Hirschfleisch fein gehackt','Kapern','1 Schalotte','Senf','Olivenöl'],steps:'Alles fein hacken und vermengen. Auf Brot oder Salat servieren.'},
+  {title:'Pasta aglio e olio',time:'15 Min.',tags:['vegetarisch'],ingredients:['200g Spaghetti','4 Knoblauchzehen','Olivenöl','Chiliflocken','Petersilie','Parmesan'],steps:'Pasta kochen. Knoblauch in Öl braten, mit Pasta vermengen. Petersilie und Parmesan drüber.'},
+  {title:'Käseomelett provençal',time:'10 Min.',tags:['vegetarisch'],ingredients:['3 Eier','50g Gruyère','2 Tomaten','Herbes de Provence','Butter'],steps:'Eier würzen, in Butter stocken lassen. Käse und Tomaten auf eine Hälfte, zusammenklappen.'},
+  {title:'Quark mit Beeren und Nüssen',time:'5 Min.',tags:['vegetarisch'],ingredients:['250g Magerquark','Beeren','Honig','Walnüsse','Zimt'],steps:'Quark mit Honig und Zimt rühren. Mit Beeren und Walnüssen toppen.'},
+  {title:'Mozzarella-Tomaten-Pasta',time:'15 Min.',tags:['vegetarisch'],ingredients:['200g Pasta','125g Mozzarella','3 Tomaten','Basilikum','Olivenöl','Knoblauch'],steps:'Pasta kochen. Tomaten und Mozzarella würfeln, mit Öl und Basilikum mischen. Heiße Pasta unterheben.'},
+  {title:'Asiatische Ei-Bowl',time:'15 Min.',tags:['vegetarisch'],ingredients:['3 Eier','Sojasoße','Sesamöl','Frühlingszwiebeln','Sesam','Reis'],steps:'Reis kochen. Eier als Omelett braten, in Streifen schneiden. Über Reis mit Sojasoße und Sesam servieren.'},
+  {title:'Bruschetta mit Tomaten',time:'10 Min.',tags:['vegetarisch'],ingredients:['4 Scheiben Baguette','3 Tomaten','Knoblauch','Basilikum','Olivenöl'],steps:'Brot toasten, mit Knoblauch einreiben. Tomaten mit Basilikum und Öl mischen, auf Brot häufen.'},
+  {title:'Ricotta-Spinat-Pfanne',time:'15 Min.',tags:['vegetarisch'],ingredients:['200g Spinat','150g Ricotta','Knoblauch','Muskat','Parmesan'],steps:'Knoblauch anbraten, Spinat zusammenfallen lassen. Ricotta unterrühren, mit Muskat würzen.'},
+  {title:'Rote-Bete-Suppe mit Feta',time:'20 Min.',tags:['vegetarisch'],ingredients:['3 rote Bete vorgekocht','400ml Gemüsebrühe','1 Zwiebel','80g Feta','Zitronensaft','Dill'],steps:'Zwiebel anbraten, rote Bete dazu, Brühe zugeben, pürieren. Mit Feta und Dill servieren.'},
+  {title:'Eiersalat mit Senf',time:'10 Min.',tags:['vegetarisch'],ingredients:['4 hart gekochte Eier','Joghurt','Senf','Schnittlauch','Zitronensaft'],steps:'Eier würfeln, mit Joghurt, Senf und Zitrone mischen. Auf Brot oder Salat servieren.'},
+  {title:'Rinderhackfleisch-Bowl',time:'15 Min.',tags:['Rind'],ingredients:['250g Rinderhack','1 Paprika','Sojasoße','Ingwer','Reis'],steps:'Hack krümelig braten, Paprika dazu, mit Sojasoße würzen. Über Reis servieren.'},
+  {title:'Rehkeule mit Kräutern',time:'20 Min.',tags:['Wild'],ingredients:['300g Rehkeule in Scheiben','Rosmarin','Thymian','Knoblauch','Butter','Salz Pfeffer'],steps:'Fleisch würzen, in Kräuterbutter von beiden Seiten je 4 Min. braten. Mit frischen Kräutern servieren.'},
+];
+
 const PLAN=[
   {id:'mi',day:'Mittwoch',time:'Mittag',icon:'🚶',exercises:[
     {id:'mi1',name:'Walken / leichtes Joggen',desc:'Zügiges Walken, bei guter Form kurze Laufintervalle einbauen.',meta:'30–45 Min.',unit:'min',yt:'Walken+Joggen+Anfänger'},
     {id:'mi2',name:'Katze-Kuh',desc:'Auf allen vieren: Einatmen = Rücken strecken, Ausatmen = runden.',meta:'3 × 10 Wdh.',unit:'Wdh.',yt:'Katze+Kuh+Übung+Rücken'},
     {id:'mi3',name:'Vogel-Hund',desc:'Gegenüberliegenden Arm & Bein strecken, 3 Sek. halten.',meta:'3 × 8 je Seite',unit:'Wdh./Seite',yt:'Bird+Dog+Rücken'},
     {id:'mi4',name:'Brücke',desc:'Becken anheben bis Schulter–Hüfte–Knie eine Linie bilden.',meta:'3 × 12 Wdh.',unit:'Wdh.',yt:'Glute+Bridge+Übung'},
-    {id:'mi5',name:'Clamshell',desc:'Seitlich liegen, Rubber Band um Oberschenkel: Knie öffnen wie eine Muschel. Stärkt Hüfte und Po.',meta:'3 × 12 je Seite',unit:'Wdh./Seite',yt:'Clamshell+Übung+Rubber+Band'},
+    {id:'mi5',name:'Clamshell',desc:'Seitlich liegen, Rubber Band um Oberschenkel: Knie öffnen wie eine Muschel.',meta:'3 × 12 je Seite',unit:'Wdh./Seite',yt:'Clamshell+Übung+Rubber+Band'},
     {id:'mi6',name:'Seitliche Dehnungen',desc:'Arm über Kopf, langsam zur Seite neigen.',meta:'2 × 30 Sek. je Seite',unit:'Sek./Seite',yt:'Seitliche+Dehnung+Wirbelsäule'},
   ]},
   {id:'fr',day:'Freitag',time:'Vormittag',icon:'💪',exercises:[
@@ -267,7 +289,7 @@ const PLAN=[
     {id:'fr2',name:'Plank',desc:'Unterarme und Zehen aufgestützt, Körper gerade halten.',meta:'3 × 20–40 Sek.',unit:'Sek.',yt:'Plank+richtig+ausführen'},
     {id:'fr3',name:'Dead Bug',desc:'Arm + Gegenbein absenken, Lendenwirbel bleibt am Boden.',meta:'3 × 8 je Seite',unit:'Wdh./Seite',yt:'Dead+Bug+Core'},
     {id:'fr4',name:'Side Plank',desc:'Auf einer Seite abstützen, Hüfte angehoben.',meta:'2 × 20 Sek. je Seite',unit:'Sek./Seite',yt:'Side+Plank+Übung'},
-    {id:'fr5',name:'Seitliches Anheben',desc:'Mit 1–2 kg Gewicht: Arme seitlich bis Schulterhöhe anheben. Verbessert Körperhaltung.',meta:'3 × 12 Wdh.',unit:'Wdh.',yt:'Seitliches+Anheben+Schulter'},
+    {id:'fr5',name:'Seitliches Anheben',desc:'Mit 1–2 kg Gewicht: Arme seitlich bis Schulterhöhe anheben.',meta:'3 × 12 Wdh.',unit:'Wdh.',yt:'Seitliches+Anheben+Schulter'},
     {id:'fr6',name:'Beckenboden-Aktivierung',desc:'Anspannen, 5 Sek. halten, loslassen.',meta:'2 × 10 Wdh.',unit:'Wdh.',yt:'Beckenboden+Übung'},
   ]},
   {id:'so',day:'Sonntag',time:'Mittag',icon:'🏊',exercises:[
@@ -292,13 +314,12 @@ let streaks=JSON.parse(localStorage.getItem('eva-streaks')||'{}');
 let streakHistory=JSON.parse(localStorage.getItem('eva-streak-history')||'{}');
 let savedRecipes=JSON.parse(localStorage.getItem('eva-recipes')||'[]');
 let weightLog=JSON.parse(localStorage.getItem('eva-weights')||'[]');
+let seenRecipes=JSON.parse(localStorage.getItem('eva-seen-recipes')||'[]');
 const timers={};
 let currentRecipe=null;
 let chartsBuilt=false;
 let chartInstances={};
-let seenRecipes=JSON.parse(localStorage.getItem('eva-seen-recipes')||'[]');
 
-// night reset
 function scheduleNightReset(){
   const now=new Date(),next=new Date();
   next.setDate(now.getDate()+1);next.setHours(2,0,0,0);
@@ -312,11 +333,10 @@ function switchTab(name,btn){
   document.getElementById('sec-'+name).classList.add('active');
   btn.classList.add('active');
   document.getElementById('content').scrollTop=0;
-  if(name==='food'){if(!currentRecipe)fetchRecipe();buildStreakChart();}
+  if(name==='food'){if(!currentRecipe)showRecipe();buildStreakChart();}
   if(name==='tracking'&&!chartsBuilt){setTimeout(buildCharts,100);chartsBuilt=true;}
 }
 
-// COUNTDOWN
 function buildCountdown(){
   const now=new Date();
   const start=new Date(2026,3,1,0,0,0,0);
@@ -325,25 +345,20 @@ function buildCountdown(){
   const num=document.getElementById('cd-number'),lbl=document.getElementById('cd-label'),bar=document.getElementById('cd-bar');
   const msDay=1000*60*60*24;
   if(now<start){
-    const daysLeft=Math.ceil((start-now)/msDay);
-    num.textContent='-'+daysLeft;
-    num.style.color='var(--text2)';
-    lbl.textContent='Tage bis Start';
-    bar.style.width='0%';
+    const d=Math.ceil((start-now)/msDay);
+    num.textContent='-'+d;num.style.color='var(--text2)';
+    lbl.textContent='Tage bis Start';bar.style.width='0%';
   } else if(now<=end){
     const day=Math.floor((now-start)/msDay)+1;
-    num.textContent='Tag '+day;
-    num.style.color='var(--gold2)';
+    num.textContent='Tag '+day;num.style.color='var(--gold2)';
     lbl.textContent=(100-day)+' Tage verbleiben';
     bar.style.width=Math.min(day,100)+'%';
   } else {
     num.textContent='✓';num.style.color='#6dbf88';
-    lbl.textContent='100 Tage geschafft!';
-    bar.style.width='100%';
+    lbl.textContent='100 Tage geschafft!';bar.style.width='100%';
   }
 }
 
-// TRAINING
 function buildTraining(){
   const wrap=document.getElementById('training-content');
   wrap.innerHTML=PLAN.map(day=>{
@@ -379,12 +394,7 @@ function buildTraining(){
                 <div class="ex-meta">Empfehlung: ${ex.meta}</div>
               </div>
             </div>
-            ${recent.length?`<div class="ex-last-entries">
-              ${recent.slice().reverse().map((h,i)=>`<div class="ex-last-entry">
-                <span>${h.date}: <span class="entry-val">${h.val} ${ex.unit}</span></span>
-                <button onclick="deleteExLog('${ex.id}',${logs.length-1-(recent.length-1-i)},'${day.id}')">✕</button>
-              </div>`).join('')}
-            </div>`:''}
+            ${recent.length?`<div class="ex-last-entries">${recent.slice().reverse().map((h,i)=>`<div class="ex-last-entry"><span>${h.date}: <span class="entry-val">${h.val} ${ex.unit}</span></span><button onclick="deleteExLog('${ex.id}',${logs.length-1-(recent.length-1-i)},'${day.id}')">✕</button></div>`).join('')}</div>`:''}
             <div class="ex-log">
               <input type="number" id="inp-${ex.id}" placeholder="${ex.unit}" step="0.5" min="0">
               <button onclick="saveExLog('${ex.id}','${day.id}')">Speichern</button>
@@ -424,7 +434,6 @@ function startTimer(id){if(timers[id]?.running)return;if(!timers[id])timers[id]=
 function pauseTimer(id){if(!timers[id])return;clearInterval(timers[id].iv);timers[id].running=false;}
 function resetTimer(id){if(timers[id]){clearInterval(timers[id].iv);timers[id]={secs:0,running:false,iv:null};}const el=document.getElementById('timer-'+id);if(el)el.textContent='00:00';}
 
-// STREAKS
 function todayStr(){return new Date().toISOString().slice(0,10);}
 function buildStreaks(){
   document.getElementById('streak-grid').innerHTML=STREAKS_DEF.map(s=>{
@@ -446,10 +455,8 @@ function bumpStreak(id){
   s.count=(s.last===yesterday.toISOString().slice(0,10))?s.count+1:1;
   s.last=todayStr();
   localStorage.setItem('eva-streaks',JSON.stringify(streaks));
-  // save to history
-  const t=todayStr();
   if(!streakHistory[id])streakHistory[id]=[];
-  streakHistory[id].push({date:t,count:s.count});
+  streakHistory[id].push({date:todayStr(),count:s.count});
   localStorage.setItem('eva-streak-history',JSON.stringify(streakHistory));
   buildStreaks();buildStreakChart();
 }
@@ -458,97 +465,49 @@ function resetStreak(e,id){
   localStorage.setItem('eva-streaks',JSON.stringify(streaks));
   buildStreaks();buildStreakChart();
 }
-
 function buildStreakChart(){
   const allDates=[...new Set(STREAKS_DEF.flatMap(s=>(streakHistory[s.id]||[]).map(h=>h.date)))].sort();
-  if(!allDates.length){
-    if(chartInstances['chart-streaks'])chartInstances['chart-streaks'].destroy();
-    return;
-  }
+  if(!allDates.length){if(chartInstances['chart-streaks'])chartInstances['chart-streaks'].destroy();return;}
   const colors=['#e8c97a','#6dbf88','#7eb8e8','#e8a87e','#b87ee8','#e88'];
   const datasets=STREAKS_DEF.map((s,i)=>{
     const byDate={};(streakHistory[s.id]||[]).forEach(h=>byDate[h.date]=h.count);
-    return {label:s.label,data:allDates.map(d=>byDate[d]??null),borderColor:colors[i%colors.length],backgroundColor:'transparent',tension:.3,pointRadius:3,pointBackgroundColor:colors[i%colors.length],spanGaps:true};
+    return {label:s.label,data:allDates.map(d=>byDate[d]??null),borderColor:colors[i],backgroundColor:'transparent',tension:.3,pointRadius:3,pointBackgroundColor:colors[i],spanGaps:true};
   });
   if(chartInstances['chart-streaks'])chartInstances['chart-streaks'].destroy();
-  const ctx=document.getElementById('chart-streaks').getContext('2d');
-  chartInstances['chart-streaks']=new Chart(ctx,{
+  chartInstances['chart-streaks']=new Chart(document.getElementById('chart-streaks').getContext('2d'),{
     type:'line',data:{labels:allDates,datasets},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#a89e7e',font:{size:10},boxWidth:10}}},scales:{x:{ticks:{color:'#a89e7e',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,0.05)'}},y:{ticks:{color:'#a89e7e',font:{size:10}},grid:{color:'rgba(255,255,255,0.05)'},beginAtZero:true}}}
   });
 }
 
-// RECIPES
-const FALLBACK_RECIPES=[
-  {title:'Wildgulasch mit Wurzelgemüse',time:'20 Min.',tags:['Wild','herzhaft','sättigend'],ingredients:['300g Wildfleisch (Reh/Hirsch, vorgekocht)','2 Karotten','1 Pastinake','1 Zwiebel','1 TL Tomatenmark','Thymian, Salz, Pfeffer'],steps:'Zwiebel und Gemüse würfeln, in etwas Öl anbraten. Wildfleisch und Tomatenmark dazugeben, mit etwas Wasser ablöschen. 10 Min. köcheln, würzen und servieren.'},
-  {title:'Rinderhackfleisch-Bowl',time:'15 Min.',tags:['Rind','schnell','proteinreich'],ingredients:['250g Rinderhack','1 Zucchini','1 Paprika','2 EL Sojasoße','1 TL Ingwer','Reis oder Salat als Basis'],steps:'Hack in der Pfanne krümelig braten. Gemüse würfeln und dazugeben, mit Sojasoße und Ingwer würzen. Über Reis oder Salat servieren.'},
-  {title:'Hirschsteak mit Blattsalat',time:'15 Min.',tags:['Wild','leicht','eiweißreich'],ingredients:['200g Hirschsteak','Gemischter Blattsalat','1 EL Balsamico','1 TL Olivenöl','Salz, Rosmarin'],steps:'Steak 3 Min. je Seite scharf anbraten, ruhen lassen. Salat mit Balsamico und Öl anmachen. Steak in Scheiben auf dem Salat servieren.'},
-  {title:'Rinderstreifen mit Brokkoli',time:'15 Min.',tags:['Rind','gemüsereich','schnell'],ingredients:['250g Rinderfilet in Streifen','300g Brokkoli','2 Knoblauchzehen','1 EL Sojasoße','Sesamöl'],steps:'Brokkoli 3 Min. blanchieren. Rinderstreifen mit Knoblauch scharf anbraten, Brokkoli dazu, mit Sojasoße und Sesamöl abschmecken.'},
-  {title:'Wildschweingeschnetzeltes',time:'20 Min.',tags:['Wild','würzig','sättigend'],ingredients:['250g Wildschwein geschnetzelt','1 Zwiebel','100g Champignons','2 EL Sauerrahm','Thymian, Wacholder, Salz'],steps:'Zwiebeln und Pilze anbraten, Fleisch dazu und scharf braten. Mit Sauerrahm und Gewürzen verfeinern, 5 Min. ziehen lassen.'},
-  {title:'Rindertatar-Salat',time:'10 Min.',tags:['Rind','roh','leicht'],ingredients:['200g frisches Rindertatar','Rucola','Kapern','1 Zitrone','Olivenöl','Salz, Pfeffer'],steps:'Rucola auf dem Teller anrichten. Tatar mit Zitronensaft, Öl und Kapern vermischen, auf dem Salat platzieren und sofort servieren.'},
-
-  {title:'Griechischer Salat mit Hüttenkäse',time:'10 Min.',tags:['vegetarisch','leicht','frisch'],ingredients:['200g Hüttenkäse','2 Tomaten','1 Gurke','Oliven','Oregano','Olivenöl, Zitrone'],steps:'Gemüse grob würfeln, mit Oliven in einer Schüssel mischen. Hüttenkäse darüber, mit Olivenöl, Zitronensaft und Oregano beträufeln.'},
-  {title:'Zucchini-Omelett',time:'15 Min.',tags:['vegetarisch','eiweißreich','schnell'],ingredients:['3 Eier','1 Zucchini','1 Knoblauchzehe','Frische Kräuter','Salz, Pfeffer','etwas Öl'],steps:'Zucchini raspeln und ausdrücken. Mit Eiern, Knoblauch und Kräutern verquirlen. In der Pfanne bei mittlerer Hitze 4 Min. je Seite goldbraun braten.'},
-];
-
+function showRecipe(){
+  const unseen=RECIPES.filter(r=>!seenRecipes.includes(r.title));
+  const pool=unseen.length?unseen:RECIPES;
+  if(!unseen.length)seenRecipes=[];
+  const recipe=pool[Math.floor(Math.random()*pool.length)];
+  currentRecipe=recipe;
+  seenRecipes.push(recipe.title);
+  localStorage.setItem('eva-seen-recipes',JSON.stringify(seenRecipes));
+  renderRecipe(recipe,false);
+}
 function resetSeenRecipes(){
   seenRecipes=[];
   localStorage.removeItem('eva-seen-recipes');
   currentRecipe=null;
-  alert('Verlauf gelöscht. Rezepte gesamt: '+FALLBACK_RECIPES.length);
-  document.getElementById('recipe-area').innerHTML='<div class="loading-recipe">Lade neues Rezept…</div>';
-  setTimeout(fetchRecipe,100);
-}
-
-async function fetchRecipe(){
-  const area=document.getElementById('recipe-area');
-  area.innerHTML='<div class="loading-recipe">KI denkt nach… 🥗</div>';
-  const avoidList=seenRecipes.slice(-10).join(', ');
-  try{
-    const ctrl=new AbortController();
-    const timeout=setTimeout(()=>ctrl.abort(),8000);
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      signal:ctrl.signal,
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:800,
-        messages:[{role:'user',content:`Schlage ein gesundes, schnelles Rezept vor. Wichtige Regeln: 1) Nur Wild oder Rindfleisch als Fleisch (oder vegetarisch). 2) Max. 20 Min. Zubereitung. 3) Gut zum Abnehmen, Fokus Bauch. 4) Auf keinen Fall eines dieser Rezepte vorschlagen: ${avoidList||'keine'}. Antworte NUR als reines JSON-Objekt, keine Backticks, kein Markdown: {"title":"...","time":"X Min.","tags":["..."],"ingredients":["...","..."],"steps":"2-3 Sätze Zubereitung."}`}]
-      })
-    });
-    clearTimeout(timeout);
-    const data=await resp.json();
-    let txt=(data.content||[]).map(i=>i.text||'').join('').trim();
-    txt=txt.replace(/^```[a-z]*\n?/,'').replace(/```$/,'').trim();
-    const recipe=JSON.parse(txt);
-    currentRecipe=recipe;
-    seenRecipes.push(recipe.title);
-    if(seenRecipes.length>20)seenRecipes=seenRecipes.slice(-20);
-    localStorage.setItem('eva-seen-recipes',JSON.stringify(seenRecipes));
-    renderRecipe(recipe,false);
-  }catch(e){
-    const unseen=FALLBACK_RECIPES.filter(r=>!seenRecipes.includes(r.title));
-    const pool=unseen.length?unseen:FALLBACK_RECIPES;
-    if(!unseen.length) seenRecipes=[];
-    const recipe=pool[Math.floor(Math.random()*pool.length)];
-    currentRecipe=recipe;
-    seenRecipes.push(recipe.title);
-    if(seenRecipes.length>FALLBACK_RECIPES.length) seenRecipes=seenRecipes.slice(-Math.floor(FALLBACK_RECIPES.length/2));
-    localStorage.setItem('eva-seen-recipes',JSON.stringify(seenRecipes));
-    renderRecipe(recipe,false);
-  }
+  alert('Verlauf gelöscht. Rezepte gesamt: '+RECIPES.length);
+  showRecipe();
 }
 function renderRecipe(r,liked){
   document.getElementById('recipe-area').innerHTML=`<div class="recipe-card ${liked?'liked':''}">
     <div class="recipe-title">${r.title}</div>
-    <div class="recipe-meta">⏱ ${r.time} &nbsp;·&nbsp; ${(r.tags||[]).join(' · ')}</div>
+    <div class="recipe-meta">${r.tags.join(' · ')} &nbsp;·&nbsp; ⏱ ${r.time}</div>
     <div class="recipe-body">
-      <strong style="color:var(--gold);font-size:12px">ZUTATEN</strong><br>${(r.ingredients||[]).map(i=>'• '+i).join('<br>')}
+      <strong style="color:var(--gold);font-size:12px">ZUTATEN</strong><br>${r.ingredients.map(i=>'• '+i).join('<br>')}
       <br><br><strong style="color:var(--gold);font-size:12px">ZUBEREITUNG</strong><br>${r.steps}
     </div>
     <div class="recipe-actions">
       <button class="btn-like ${liked?'liked':''}" onclick="likeRecipe()">${liked?'♥ Gespeichert':'♡ Speichern'}</button>
-      <button class="btn-new" onclick="fetchRecipe()">Neues Rezept →</button>
+      <button class="btn-new" onclick="showRecipe()">Neues Rezept →</button>
     </div>
   </div>`;
   renderSaved();
@@ -567,39 +526,33 @@ function renderSaved(){
         <div><div class="recipe-title">${r.title}</div><div class="recipe-meta">⏱ ${r.time}</div></div>
         <button onclick="deleteSaved(${i})" style="background:transparent;border:none;color:var(--text2);cursor:pointer;font-size:18px">×</button>
       </div>
-      <div class="recipe-body">${(r.ingredients||[]).map(x=>'• '+x).join('<br>')}<br><br>${r.steps}</div>
+      <div class="recipe-body">${r.ingredients.map(x=>'• '+x).join('<br>')}<br><br>${r.steps}</div>
     </div>`).join('');
 }
 function deleteSaved(i){savedRecipes.splice(i,1);localStorage.setItem('eva-recipes',JSON.stringify(savedRecipes));renderSaved();}
 
-// TRACKING CHARTS
 const CHART_OPTS={responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#a89e7e',font:{size:11},boxWidth:12}}},scales:{x:{ticks:{color:'#a89e7e',font:{size:10},maxRotation:45},grid:{color:'rgba(255,255,255,0.05)'}},y:{ticks:{color:'#a89e7e',font:{size:10}},grid:{color:'rgba(255,255,255,0.05)'},beginAtZero:true}}};
 const COLORS=['#e8c97a','#6dbf88','#7eb8e8','#e88','#b87ee8'];
 function makeChart(id,labels,datasets){
   if(chartInstances[id])chartInstances[id].destroy();
-  const ctx=document.getElementById(id).getContext('2d');
-  chartInstances[id]=new Chart(ctx,{type:'line',data:{labels,datasets:datasets.map((d,i)=>({label:d.label,data:d.data,borderColor:COLORS[i%5],backgroundColor:'transparent',tension:.3,pointRadius:4,pointBackgroundColor:COLORS[i%5],spanGaps:true}))},options:JSON.parse(JSON.stringify(CHART_OPTS))});
+  chartInstances[id]=new Chart(document.getElementById(id).getContext('2d'),{type:'line',data:{labels,datasets:datasets.map((d,i)=>({label:d.label,data:d.data,borderColor:COLORS[i%5],backgroundColor:'transparent',tension:.3,pointRadius:4,pointBackgroundColor:COLORS[i%5],spanGaps:true}))},options:JSON.parse(JSON.stringify(CHART_OPTS))});
 }
 function buildCharts(){
   const walkIds=['mi1','fr1'];
   const walkDates=[...new Set(walkIds.flatMap(id=>(exLogs[id]||[]).map(e=>e.date)))].sort();
   makeChart('chart-walk',walkDates,walkIds.map((id,i)=>{const by={};(exLogs[id]||[]).forEach(e=>by[e.date]=e.val);return {label:i===0?'Mi-Walk':'Fr-Walk',data:walkDates.map(d=>by[d]??null)};}));
-
   const exIds=['mi2','mi3','mi4','mi5','mi6','fr2','fr3','fr4','fr5','fr6'];
   const allEx=PLAN.flatMap(d=>d.exercises);
   const exDates=[...new Set(exIds.flatMap(id=>(exLogs[id]||[]).map(e=>e.date)))].sort();
   const exDS=exIds.filter(id=>exLogs[id]&&exLogs[id].length).map(id=>{const ex=allEx.find(e=>e.id===id);const by={};(exLogs[id]||[]).forEach(e=>by[e.date]=e.val);return {label:ex?ex.name.split(' ')[0]:id,data:exDates.map(d=>by[d]??null)};});
   makeChart('chart-ex',exDates,exDS.length?exDS:[{label:'Keine Daten',data:[]}]);
-
   const swimIds=['so1','so2'];
   const swimDates=[...new Set(swimIds.flatMap(id=>(exLogs[id]||[]).map(e=>e.date)))].sort();
   makeChart('chart-swim',swimDates,swimIds.map((id,i)=>{const by={};(exLogs[id]||[]).forEach(e=>by[e.date]=e.val);return {label:i===0?'Rückenschwimmen':'Kraulen',data:swimDates.map(d=>by[d]??null)};}));
-
   const wDates=[...weightLog].reverse().map(e=>e.d),wVals=[...weightLog].reverse().map(e=>e.w);
   makeChart('chart-weight',wDates,[{label:'Gewicht (kg)',data:wVals}]);
 }
 
-// PHOTOS
 let currentSlot=0;
 function triggerUpload(slot){currentSlot=slot;document.getElementById('file-input').click();}
 document.getElementById('file-input').addEventListener('change',function(e){
@@ -610,7 +563,6 @@ document.getElementById('file-input').addEventListener('change',function(e){
 });
 function removePhoto(e,slot){e.stopPropagation();const el=document.getElementById('slot-'+slot);const img=el.querySelector('img');if(img)img.remove();}
 
-// WEIGHT
 function logWeight(){
   const val=parseFloat(document.getElementById('weight-input').value);
   if(!val||val<30||val>200)return;
@@ -636,4 +588,3 @@ updateStats();
 </script>
 </body>
 </html>
-
