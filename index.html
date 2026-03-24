@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="EVAlution">
+<title>EVAlution</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0f1a12;--bg2:#16231a;--bg3:#1d2e22;--gold:#c9a84c;--gold2:#e8c97a;--creme:#f0ead6;--text:#f0ead6;--text2:#a89e7e;--radius:14px;--radius-sm:8px}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow:hidden}
+#app{display:flex;flex-direction:column;height:100vh;max-width:430px;margin:0 auto}
+#header{padding:18px 20px 10px;background:var(--bg)}
+.app-title{font-size:26px;font-weight:700;letter-spacing:1px;color:var(--gold2)}
+.app-title span{color:var(--creme)}
+.app-subtitle{font-size:12px;color:var(--text2);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+#content{flex:1;overflow-y:auto;padding:0 16px 80px}
+#content::-webkit-scrollbar{display:none}
+#tabs{display:flex;background:var(--bg);border-top:1px solid rgba(201,168,76,0.2);padding:6px 8px 10px;gap:4px;z-index:10}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;border-radius:var(--radius-sm);border:none;background:transparent;color:var(--text2);cursor:pointer;font-size:9px;letter-spacing:.5px;text-transform:uppercase}
+.tab svg{width:22px;height:22px;stroke-width:1.5}
+.tab.active{color:var(--gold2);background:rgba(201,168,76,0.1)}
+.tab:active{transform:scale(.95)}
+.section{display:none;animation:fadeIn .3s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* MOTIVATION */
+.photo-slot{border-radius:var(--radius);border:1.5px dashed rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;background:var(--bg2)}
+.photo-slot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.photo-slot .slot-label{font-size:11px;color:var(--text2);text-align:center;padding:8px;z-index:1}
+.photo-slot .add-icon{width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(201,168,76,0.4);display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.photo-slot .add-icon svg{width:16px;height:16px;stroke:var(--gold);stroke-width:2}
+.photo-slot .remove-btn{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.6);border:none;color:#fff;font-size:14px;display:none;align-items:center;justify-content:center;cursor:pointer;z-index:2}
+.photo-slot:has(img) .remove-btn{display:flex}
+.photo-slot:has(img) .add-icon,.photo-slot:has(img) .slot-label{display:none}
+.quote-card{background:var(--bg2);border:1px solid rgba(201,168,76,0.2);border-radius:var(--radius);padding:20px;margin-bottom:16px;text-align:center}
+.quote-card p{font-size:15px;color:var(--creme);line-height:1.7;font-style:italic}
+
+/* COUNTDOWN */
+.cd-box{background:var(--bg2);border:1px solid rgba(201,168,76,0.2);border-radius:var(--radius);padding:16px;margin:16px 0 12px}
+.cd-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cd-label-small{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
+.cd-dates{font-size:11px;color:var(--text2)}
+.cd-main{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}
+.cd-number{font-size:36px;font-weight:700;line-height:1}
+.cd-sublabel{font-size:13px;color:var(--text2)}
+.cd-progress-wrap{height:6px;background:rgba(255,255,255,0.08);border-radius:3px}
+.cd-progress-bar{height:100%;border-radius:3px;background:var(--gold);transition:width .5s}
+
+/* TRAINING */
+.day-card{background:var(--bg2);border:1px solid rgba(201,168,76,0.15);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
+.day-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;user-select:none}
+.day-header-left{display:flex;align-items:center;gap:10px}
+.day-dot{width:10px;height:10px;border-radius:50%;background:var(--gold)}
+.day-title{font-size:15px;font-weight:600;color:var(--creme)}
+.day-sub{font-size:11px;color:var(--text2);margin-top:2px}
+.day-badge{font-size:11px;padding:3px 10px;border-radius:10px;background:rgba(201,168,76,0.15);color:var(--gold)}
+.day-badge.done{background:rgba(45,90,61,.5);color:#6dbf88}
+.day-body{padding:0 16px 16px;display:none}
+.day-body.open{display:block}
+.timer-bar{display:flex;align-items:center;gap:8px;padding:10px 0 14px;border-bottom:1px solid rgba(201,168,76,0.1);margin-bottom:12px}
+.timer-display{font-size:26px;font-weight:700;color:var(--gold2);font-variant-numeric:tabular-nums;min-width:76px}
+.timer-btn{padding:7px 12px;border-radius:var(--radius-sm);border:none;font-size:12px;font-weight:600;cursor:pointer}
+.timer-btn:active{transform:scale(.96)}
+.btn-start{background:var(--gold);color:#0f1a12}
+.btn-stop{background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.3)}
+.btn-reset{background:transparent;color:var(--text2);border:1px solid rgba(255,255,255,0.1)}
+.exercise-item{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.exercise-item:last-child{border-bottom:none}
+.ex-row1{display:flex;align-items:flex-start;gap:12px}
+.ex-check{width:22px;height:22px;min-width:22px;border-radius:6px;border:1.5px solid rgba(201,168,76,0.4);display:flex;align-items:center;justify-content:center;cursor:pointer;margin-top:1px}
+.ex-check.checked{background:var(--gold);border-color:var(--gold)}
+.ex-check.checked svg{display:block}
+.ex-check svg{display:none;width:13px;height:13px;stroke:#0f1a12;stroke-width:3}
+.ex-info{flex:1}
+.ex-name{font-size:14px;font-weight:500;color:var(--gold2);cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(201,168,76,0.4)}
+.ex-name.done-txt{text-decoration:line-through;color:var(--text2)}
+.ex-desc{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5}
+.ex-meta{font-size:11px;color:var(--gold);margin-top:4px}
+.ex-log{margin-top:8px;margin-left:34px;display:flex;gap:8px;align-items:center}
+.ex-log input{background:var(--bg3);border:1px solid rgba(201,168,76,0.2);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px;width:110px;outline:none}
+.ex-log input:focus{border-color:var(--gold)}
+.ex-log button{background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.25);border-radius:6px;padding:6px 10px;font-size:12px;cursor:pointer}
+.ex-last-entries{margin-top:6px;margin-left:34px;display:flex;flex-direction:column;gap:4px}
+.ex-last-entry{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:6px;padding:4px 8px;font-size:11px}
+.ex-last-entry span{color:var(--text2)}
+.entry-val{color:#6dbf88}
+.ex-last-entry button{background:transparent;border:none;color:rgba(220,80,80,.6);cursor:pointer;font-size:13px;padding:0 2px}
+.progress-bar-wrap{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:12px 0 4px}
+.progress-bar{height:100%;border-radius:2px;background:var(--gold)}
+.progress-label{font-size:11px;color:var(--text2);text-align:right}
+
+/* ERNÄHRUNG */
+.streak-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
+.streak-item{background:var(--bg2);border:1px solid rgba(201,168,76,0.15);border-radius:var(--radius);padding:12px 8px;text-align:center;cursor:pointer;position:relative}
+.streak-item.active-today{border-color:rgba(109,191,136,0.5)}
+.streak-fire{font-size:22px;margin-bottom:4px}
+.streak-count{font-size:22px;font-weight:700;color:var(--gold2)}
+.streak-label{font-size:10px;color:var(--text2);margin-top:3px;line-height:1.3}
+.streak-fail-btn{position:absolute;top:6px;right:6px;width:18px;height:18px;border-radius:50%;background:rgba(180,60,60,.3);border:none;color:#e88;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.food-section-title{font-size:13px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin:16px 0 10px}
+.recipe-card{background:var(--bg2);border:1px solid rgba(201,168,76,0.15);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.recipe-card.liked{border-color:rgba(201,168,76,0.5)}
+.recipe-title{font-size:15px;font-weight:600;color:var(--creme)}
+.recipe-meta{font-size:11px;color:var(--text2);margin-top:4px}
+.recipe-body{font-size:13px;color:var(--text2);margin-top:10px;line-height:1.6}
+.recipe-actions{display:flex;gap:8px;margin-top:12px}
+.btn-like{background:transparent;border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:6px 14px;color:var(--text2);font-size:12px;cursor:pointer}
+.btn-like.liked{background:rgba(201,168,76,0.15);color:var(--gold);border-color:var(--gold)}
+.btn-new{background:var(--gold);color:#0f1a12;border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer}
+.btn-new:active{transform:scale(.97)}
+.loading-recipe{text-align:center;padding:30px 0;color:var(--text2);font-size:13px}
+
+/* CHARTS */
+.chart-card{background:var(--bg2);border:1px solid rgba(201,168,76,0.15);border-radius:var(--radius);padding:16px;margin-bottom:16px}
+.chart-card h3{font-size:13px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.chart-wrap{position:relative;height:180px}
+.weight-card{background:var(--bg2);border:1px solid rgba(201,168,76,0.15);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.weight-card h3{font-size:13px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.weight-input-row{display:flex;gap:10px;align-items:center}
+.weight-input-row input{flex:1;background:var(--bg3);border:1px solid rgba(201,168,76,0.2);border-radius:var(--radius-sm);padding:12px 14px;color:var(--text);font-size:18px;text-align:center;outline:none}
+.weight-input-row input:focus{border-color:var(--gold)}
+.btn-gold{background:var(--gold);color:#0f1a12;border:none;border-radius:var(--radius-sm);padding:12px 18px;font-weight:700;font-size:14px;cursor:pointer}
+.btn-gold:active{transform:scale(.97)}
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.stat-box{background:var(--bg3);border-radius:var(--radius-sm);padding:10px 8px;text-align:center}
+.stat-box .val{font-size:18px;font-weight:600;color:var(--gold2)}
+.stat-box .lbl{font-size:10px;color:var(--text2);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+input[type=file]{display:none}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <div class="app-title"><span>EVA</span>lution</div>
+    <div class="app-subtitle">Gemeinsam durchstarten</div>
+  </div>
+  <div id="content">
+
+    <!-- MOTIVATION -->
+    <div id="sec-motivation" class="section active">
+      <div class="cd-box">
+        <div class="cd-top">
+          <div class="cd-label-small">100-Tage-Challenge</div>
+          <div class="cd-dates" id="cd-dates"></div>
+        </div>
+        <div class="cd-main">
+          <div class="cd-number" id="cd-number">—</div>
+          <div class="cd-sublabel" id="cd-label"></div>
+        </div>
+        <div class="cd-progress-wrap"><div class="cd-progress-bar" id="cd-bar" style="width:0%"></div></div>
+      </div>
+      <div class="photo-slot" id="slot-2" onclick="triggerUpload(2)" style="aspect-ratio:16/9;margin-bottom:12px">
+        <img src="https://i.imgur.com/nFKvkNV.jpg" alt="Paarfoto" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">
+        <button class="remove-btn" onclick="removePhoto(event,2)">✕</button>
+      </div>
+      <div class="quote-card">
+        <p>„Sport ist nicht nur Training —<br>es ist unsere gemeinsame Zeit."</p>
+        <div style="margin-top:10px"><span style="color:var(--gold)">—</span><br><span style="font-size:12px;color:var(--gold)">für Eva</span></div>
+      </div>
+      <div style="font-size:13px;color:var(--gold);letter-spacing:.5px;margin:4px 0 10px;text-align:center">Da geht unsere Reise hin: Der Look von Koh Mook (2013)</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+        <div class="photo-slot" id="slot-0" onclick="triggerUpload(0)" style="aspect-ratio:1/1">
+          <img src="https://i.imgur.com/lVDpOxw.jpg" alt="Fitnessfoto 1" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">
+          <button class="remove-btn" onclick="removePhoto(event,0)">✕</button>
+        </div>
+        <div class="photo-slot" id="slot-1" onclick="triggerUpload(1)" style="aspect-ratio:1/1">
+          <img src="https://i.imgur.com/6WAyEHx.jpg" alt="Fitnessfoto 2" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">
+          <button class="remove-btn" onclick="removePhoto(event,1)">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRAINING -->
+    <div id="sec-training" class="section">
+      <div style="padding-top:20px" id="training-content"></div>
+    </div>
+
+    <!-- ERNÄHRUNG -->
+    <div id="sec-food" class="section">
+      <div style="padding-top:20px">
+        <div class="food-section-title">🌿 Wie war dein Tag, Eva?</div>
+        <div class="streak-grid" id="streak-grid"></div>
+        <div class="chart-card">
+          <h3>EVAlution als Serie</h3>
+          <div class="chart-wrap"><canvas id="chart-streaks"></canvas></div>
+        </div>
+        <div class="food-section-title">🍽️ Rezept des Tages</div>
+        <div id="recipe-area"><div class="loading-recipe">Lade Rezept…</div></div>
+        <div id="saved-area"></div>
+      </div>
+    </div>
+
+    <!-- TRACKING -->
+    <div id="sec-tracking" class="section">
+      <div style="padding-top:20px">
+        <div class="chart-card"><h3>🚶 Walken — Minuten</h3><div class="chart-wrap"><canvas id="chart-walk"></canvas></div></div>
+        <div class="chart-card"><h3>💪 Übungen — Wiederholungen</h3><div class="chart-wrap"><canvas id="chart-ex"></canvas></div></div>
+        <div class="chart-card"><h3>🏊 Schwimmen — Minuten</h3><div class="chart-wrap"><canvas id="chart-swim"></canvas></div></div>
+        <div class="weight-card">
+          <h3>Gewicht eintragen</h3>
+          <div class="weight-input-row">
+            <input type="number" id="weight-input" placeholder="68.5" step="0.1" min="30" max="200">
+            <button class="btn-gold" onclick="logWeight()">+ Eintragen</button>
+          </div>
+          <div class="stats-row">
+            <div class="stat-box"><div class="val" id="stat-current">—</div><div class="lbl">Aktuell</div></div>
+            <div class="stat-box"><div class="val" id="stat-start">—</div><div class="lbl">Start</div></div>
+            <div class="stat-box"><div class="val" id="stat-diff">—</div><div class="lbl">Veränderung</div></div>
+          </div>
+        </div>
+        <div class="chart-card"><h3>⚖️ Gewicht — kg</h3><div class="chart-wrap"><canvas id="chart-weight"></canvas></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tabs">
+    <button class="tab active" onclick="switchTab('motivation',this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="currentColor" fill="none"/></svg>
+      Motivation
+    </button>
+    <button class="tab" onclick="switchTab('training',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round">
+        <rect x="2" y="11" width="4" height="2" rx="1"/>
+        <rect x="18" y="11" width="4" height="2" rx="1"/>
+        <rect x="6" y="8" width="3" height="8" rx="1.5"/>
+        <rect x="15" y="8" width="3" height="8" rx="1.5"/>
+        <rect x="9" y="10" width="6" height="4" rx="1"/>
+      </svg>
+      Training
+    </button>
+    <button class="tab" onclick="switchTab('food',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 21C8 21 5 17.5 5 13.5c0-3 1.5-5.5 4-7 .5 1.5 1.5 2.5 3 2.5s2.5-1 3-2.5c2.5 1.5 4 4 4 7 0 4-3 7.5-7 7.5z"/>
+        <path d="M12 7c0-2 1-4 3-5"/>
+      </svg>
+      Ernährung
+    </button>
+    <button class="tab" onclick="switchTab('tracking',this)">
+      <svg viewBox="0 0 24 24" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Tracking
+    </button>
+  </div>
+</div>
+<input type="file" id="file-input" accept="image/*">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const PLAN=[
+  {id:'mi',day:'Mittwoch',time:'Mittag',icon:'🚶',exercises:[
+    {id:'mi1',name:'Walken / leichtes Joggen',desc:'Zügiges Walken, bei guter Form kurze Laufintervalle einbauen.',meta:'30–45 Min.',unit:'min',yt:'Walken+Joggen+Anfänger'},
+    {id:'mi2',name:'Katze-Kuh',desc:'Auf allen vieren: Einatmen = Rücken strecken, Ausatmen = runden.',meta:'3 × 10 Wdh.',unit:'Wdh.',yt:'Katze+Kuh+Übung+Rücken'},
+    {id:'mi3',name:'Vogel-Hund',desc:'Gegenüberliegenden Arm & Bein strecken, 3 Sek. halten.',meta:'3 × 8 je Seite',unit:'Wdh./Seite',yt:'Bird+Dog+Rücken'},
+    {id:'mi4',name:'Brücke',desc:'Becken anheben bis Schulter–Hüfte–Knie eine Linie bilden.',meta:'3 × 12 Wdh.',unit:'Wdh.',yt:'Glute+Bridge+Übung'},
+    {id:'mi5',name:'Clamshell',desc:'Seitlich liegen, Rubber Band um Oberschenkel: Knie öffnen wie eine Muschel. Stärkt Hüfte und Po.',meta:'3 × 12 je Seite',unit:'Wdh./Seite',yt:'Clamshell+Übung+Rubber+Band'},
+    {id:'mi6',name:'Seitliche Dehnungen',desc:'Arm über Kopf, langsam zur Seite neigen.',meta:'2 × 30 Sek. je Seite',unit:'Sek./Seite',yt:'Seitliche+Dehnung+Wirbelsäule'},
+  ]},
+  {id:'fr',day:'Freitag',time:'Vormittag',icon:'💪',exercises:[
+    {id:'fr1',name:'Walken (Warm-up)',desc:'Lockeres Aufwärmen, gleichmäßiges Tempo.',meta:'15–20 Min.',unit:'min',yt:'Walken+Aufwärmen'},
+    {id:'fr2',name:'Plank',desc:'Unterarme und Zehen aufgestützt, Körper gerade halten.',meta:'3 × 20–40 Sek.',unit:'Sek.',yt:'Plank+richtig+ausführen'},
+    {id:'fr3',name:'Dead Bug',desc:'Arm + Gegenbein absenken, Lendenwirbel bleibt am Boden.',meta:'3 × 8 je Seite',unit:'Wdh./Seite',yt:'Dead+Bug+Core'},
+    {id:'fr4',name:'Side Plank',desc:'Auf einer Seite abstützen, Hüfte angehoben.',meta:'2 × 20 Sek. je Seite',unit:'Sek./Seite',yt:'Side+Plank+Übung'},
+    {id:'fr5',name:'Seitliches Anheben',desc:'Mit 1–2 kg Gewicht: Arme seitlich bis Schulterhöhe anheben. Verbessert Körperhaltung.',meta:'3 × 12 Wdh.',unit:'Wdh.',yt:'Seitliches+Anheben+Schulter'},
+    {id:'fr6',name:'Beckenboden-Aktivierung',desc:'Anspannen, 5 Sek. halten, loslassen.',meta:'2 × 10 Wdh.',unit:'Wdh.',yt:'Beckenboden+Übung'},
+  ]},
+  {id:'so',day:'Sonntag',time:'Mittag',icon:'🏊',exercises:[
+    {id:'so1',name:'Rückenschwimmen',desc:'Gleichmäßige Züge, auf gerade Körperhaltung achten.',meta:'10–15 Min.',unit:'min',yt:'Rückenschwimmen+Technik'},
+    {id:'so2',name:'Kraulen',desc:'Abwechselnd mit Rückenschwimmen, Schultern locker.',meta:'10–15 Min.',unit:'min',yt:'Kraulschwimmen+Technik'},
+    {id:'so3',name:'Dehnen nach dem Schwimmen',desc:'Schulter, Nacken und Hüftbeuger dehnen.',meta:'5–10 Min.',unit:'min',yt:'Dehnen+nach+Schwimmen'},
+  ]}
+];
+
+const STREAKS_DEF=[
+  {id:'suss',label:'Keine Süßigkeiten',icon:'🍫'},
+  {id:'chips',label:'Keine Chips',icon:'🥔'},
+  {id:'fast',label:'Kein Fastfood',icon:'🍔'},
+  {id:'fdh',label:'FDH',icon:'½'},
+  {id:'kochen',label:'Selbst gekocht',icon:'🍲'},
+  {id:'obst',label:'Frischer Obstkorb',icon:'🍎'},
+];
+
+const checks=JSON.parse(localStorage.getItem('eva-checks')||'{}');
+const exLogs=JSON.parse(localStorage.getItem('eva-exlogs')||'{}');
+let streaks=JSON.parse(localStorage.getItem('eva-streaks')||'{}');
+let streakHistory=JSON.parse(localStorage.getItem('eva-streak-history')||'{}');
+let savedRecipes=JSON.parse(localStorage.getItem('eva-recipes')||'[]');
+let weightLog=JSON.parse(localStorage.getItem('eva-weights')||'[]');
+const timers={};
+let currentRecipe=null;
+let chartsBuilt=false;
+let chartInstances={};
+let seenRecipes=JSON.parse(localStorage.getItem('eva-seen-recipes')||'[]');
+
+// night reset
+function scheduleNightReset(){
+  const now=new Date(),next=new Date();
+  next.setDate(now.getDate()+1);next.setHours(2,0,0,0);
+  setTimeout(()=>{PLAN.forEach(d=>d.exercises.forEach(e=>{delete checks[e.id];}));localStorage.setItem('eva-checks',JSON.stringify(checks));buildTraining();scheduleNightReset();},next-now);
+}
+scheduleNightReset();
+
+function switchTab(name,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+name).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('content').scrollTop=0;
+  if(name==='food'){if(!currentRecipe)fetchRecipe();buildStreakChart();}
+  if(name==='tracking'&&!chartsBuilt){setTimeout(buildCharts,100);chartsBuilt=true;}
+}
+
+// COUNTDOWN
+function buildCountdown(){
+  const now=new Date();
+  const start=new Date(2026,3,1,0,0,0,0);
+  const end=new Date(2026,6,9,23,59,59,0);
+  document.getElementById('cd-dates').textContent='1. Apr – 09.07.2026';
+  const num=document.getElementById('cd-number'),lbl=document.getElementById('cd-label'),bar=document.getElementById('cd-bar');
+  const msDay=1000*60*60*24;
+  if(now<start){
+    const daysLeft=Math.ceil((start-now)/msDay);
+    num.textContent='-'+daysLeft;
+    num.style.color='var(--text2)';
+    lbl.textContent='Tage bis Start';
+    bar.style.width='0%';
+  } else if(now<=end){
+    const day=Math.floor((now-start)/msDay)+1;
+    num.textContent='Tag '+day;
+    num.style.color='var(--gold2)';
+    lbl.textContent=(100-day)+' Tage verbleiben';
+    bar.style.width=Math.min(day,100)+'%';
+  } else {
+    num.textContent='✓';num.style.color='#6dbf88';
+    lbl.textContent='100 Tage geschafft!';
+    bar.style.width='100%';
+  }
+}
+
+// TRAINING
+function buildTraining(){
+  const wrap=document.getElementById('training-content');
+  wrap.innerHTML=PLAN.map(day=>{
+    const total=day.exercises.length,done=day.exercises.filter(e=>checks[e.id]).length,pct=Math.round(done/total*100);
+    return `<div class="day-card">
+      <div class="day-header" onclick="toggleDay('${day.id}')">
+        <div class="day-header-left">
+          <div class="day-dot" style="${done===total&&total>0?'background:#6dbf88':''}"></div>
+          <div><div class="day-title">${day.icon} ${day.day}</div><div class="day-sub">${day.time}</div></div>
+        </div>
+        <div class="day-badge ${done===total&&total>0?'done':''}">${done===total&&total>0?'✓ Fertig':done+'/'+total}</div>
+      </div>
+      <div class="day-body" id="body-${day.id}">
+        <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+        <div class="progress-label">${done} von ${total} erledigt</div>
+        <div class="timer-bar">
+          <div class="timer-display" id="timer-${day.id}">00:00</div>
+          <button class="timer-btn btn-start" onclick="startTimer('${day.id}')">Start</button>
+          <button class="timer-btn btn-stop" onclick="pauseTimer('${day.id}')">Pause</button>
+          <button class="timer-btn btn-reset" onclick="resetTimer('${day.id}')">Reset</button>
+        </div>
+        ${day.exercises.map(ex=>{
+          const logs=exLogs[ex.id]||[];
+          const recent=logs.slice(-3);
+          return `<div class="exercise-item">
+            <div class="ex-row1">
+              <div class="ex-check ${checks[ex.id]?'checked':''}" onclick="toggleCheck('${ex.id}','${day.id}')">
+                <svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="ex-info">
+                <div class="ex-name ${checks[ex.id]?'done-txt':''}" onclick="openYT('${ex.yt}')">${ex.name} ↗</div>
+                <div class="ex-desc">${ex.desc}</div>
+                <div class="ex-meta">Empfehlung: ${ex.meta}</div>
+              </div>
+            </div>
+            ${recent.length?`<div class="ex-last-entries">
+              ${recent.slice().reverse().map((h,i)=>`<div class="ex-last-entry">
+                <span>${h.date}: <span class="entry-val">${h.val} ${ex.unit}</span></span>
+                <button onclick="deleteExLog('${ex.id}',${logs.length-1-(recent.length-1-i)},'${day.id}')">✕</button>
+              </div>`).join('')}
+            </div>`:''}
+            <div class="ex-log">
+              <input type="number" id="inp-${ex.id}" placeholder="${ex.unit}" step="0.5" min="0">
+              <button onclick="saveExLog('${ex.id}','${day.id}')">Speichern</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openYT(q){window.open('https://www.youtube.com/results?search_query='+q,'_blank');}
+function toggleDay(id){document.getElementById('body-'+id).classList.toggle('open');}
+function toggleCheck(exId,dayId){
+  checks[exId]=!checks[exId];localStorage.setItem('eva-checks',JSON.stringify(checks));
+  const open=document.getElementById('body-'+dayId).classList.contains('open');
+  buildTraining();if(open)document.getElementById('body-'+dayId).classList.add('open');
+}
+function saveExLog(exId,dayId){
+  const inp=document.getElementById('inp-'+exId),val=parseFloat(inp.value);
+  if(!val||val<=0)return;
+  if(!exLogs[exId])exLogs[exId]=[];
+  exLogs[exId].push({val,date:new Date().toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})});
+  localStorage.setItem('eva-exlogs',JSON.stringify(exLogs));inp.value='';
+  const open=document.getElementById('body-'+dayId).classList.contains('open');
+  buildTraining();if(open)document.getElementById('body-'+dayId).classList.add('open');
+  if(chartsBuilt)buildCharts();
+}
+function deleteExLog(exId,idx,dayId){
+  if(!exLogs[exId])return;exLogs[exId].splice(idx,1);
+  localStorage.setItem('eva-exlogs',JSON.stringify(exLogs));
+  const open=document.getElementById('body-'+dayId).classList.contains('open');
+  buildTraining();if(open)document.getElementById('body-'+dayId).classList.add('open');
+  if(chartsBuilt)buildCharts();
+}
+function startTimer(id){if(timers[id]?.running)return;if(!timers[id])timers[id]={secs:0,running:false,iv:null};timers[id].running=true;timers[id].iv=setInterval(()=>{timers[id].secs++;const m=String(Math.floor(timers[id].secs/60)).padStart(2,'0'),s=String(timers[id].secs%60).padStart(2,'0');const el=document.getElementById('timer-'+id);if(el)el.textContent=m+':'+s;},1000);}
+function pauseTimer(id){if(!timers[id])return;clearInterval(timers[id].iv);timers[id].running=false;}
+function resetTimer(id){if(timers[id]){clearInterval(timers[id].iv);timers[id]={secs:0,running:false,iv:null};}const el=document.getElementById('timer-'+id);if(el)el.textContent='00:00';}
+
+// STREAKS
+function todayStr(){return new Date().toISOString().slice(0,10);}
+function buildStreaks(){
+  document.getElementById('streak-grid').innerHTML=STREAKS_DEF.map(s=>{
+    const d=streaks[s.id]||{count:0,last:''};
+    const doneToday=d.last===todayStr();
+    const iconStyle=s.id==='fdh'?'font-size:18px;font-weight:700;color:var(--gold2)':'';
+    return `<div class="streak-item ${doneToday?'active-today':''}" onclick="bumpStreak('${s.id}')">
+      <div class="streak-fire" style="${iconStyle}">${s.icon}</div>
+      <div class="streak-count">${d.count}</div>
+      <div class="streak-label">${s.label}</div>
+      ${d.count>0?`<button class="streak-fail-btn" onclick="resetStreak(event,'${s.id}')">✕</button>`:''}
+    </div>`;
+  }).join('');
+}
+function bumpStreak(id){
+  if(!streaks[id])streaks[id]={count:0,last:''};
+  const s=streaks[id];if(s.last===todayStr())return;
+  const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+  s.count=(s.last===yesterday.toISOString().slice(0,10))?s.count+1:1;
+  s.last=todayStr();
+  localStorage.setItem('eva-streaks',JSON.stringify(streaks));
+  // save to history
+  const t=todayStr();
+  if(!streakHistory[id])streakHistory[id]=[];
+  streakHistory[id].push({date:t,count:s.count});
+  localStorage.setItem('eva-streak-history',JSON.stringify(streakHistory));
+  buildStreaks();buildStreakChart();
+}
+function resetStreak(e,id){
+  e.stopPropagation();streaks[id]={count:0,last:''};
+  localStorage.setItem('eva-streaks',JSON.stringify(streaks));
+  buildStreaks();buildStreakChart();
+}
+
+function buildStreakChart(){
+  const allDates=[...new Set(STREAKS_DEF.flatMap(s=>(streakHistory[s.id]||[]).map(h=>h.date)))].sort();
+  if(!allDates.length){
+    if(chartInstances['chart-streaks'])chartInstances['chart-streaks'].destroy();
+    return;
+  }
+  const colors=['#e8c97a','#6dbf88','#7eb8e8','#e8a87e','#b87ee8','#e88'];
+  const datasets=STREAKS_DEF.map((s,i)=>{
+    const byDate={};(streakHistory[s.id]||[]).forEach(h=>byDate[h.date]=h.count);
+    return {label:s.label,data:allDates.map(d=>byDate[d]??null),borderColor:colors[i%colors.length],backgroundColor:'transparent',tension:.3,pointRadius:3,pointBackgroundColor:colors[i%colors.length],spanGaps:true};
+  });
+  if(chartInstances['chart-streaks'])chartInstances['chart-streaks'].destroy();
+  const ctx=document.getElementById('chart-streaks').getContext('2d');
+  chartInstances['chart-streaks']=new Chart(ctx,{
+    type:'line',data:{labels:allDates,datasets},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#a89e7e',font:{size:10},boxWidth:10}}},scales:{x:{ticks:{color:'#a89e7e',font:{size:9},maxRotation:45},grid:{color:'rgba(255,255,255,0.05)'}},y:{ticks:{color:'#a89e7e',font:{size:10}},grid:{color:'rgba(255,255,255,0.05)'},beginAtZero:true}}}
+  });
+}
+
+// RECIPES
+const FALLBACK_RECIPES=[
+  {title:'Wildgulasch mit Wurzelgemüse',time:'20 Min.',tags:['Wild','herzhaft','sättigend'],ingredients:['300g Wildfleisch (Reh/Hirsch, vorgekocht)','2 Karotten','1 Pastinake','1 Zwiebel','1 TL Tomatenmark','Thymian, Salz, Pfeffer'],steps:'Zwiebel und Gemüse würfeln, in etwas Öl anbraten. Wildfleisch und Tomatenmark dazugeben, mit etwas Wasser ablöschen. 10 Min. köcheln, würzen und servieren.'},
+  {title:'Rinderhackfleisch-Bowl',time:'15 Min.',tags:['Rind','schnell','proteinreich'],ingredients:['250g Rinderhack','1 Zucchini','1 Paprika','2 EL Sojasoße','1 TL Ingwer','Reis oder Salat als Basis'],steps:'Hack in der Pfanne krümelig braten. Gemüse würfeln und dazugeben, mit Sojasoße und Ingwer würzen. Über Reis oder Salat servieren.'},
+  {title:'Hirschsteak mit Blattsalat',time:'15 Min.',tags:['Wild','leicht','eiweißreich'],ingredients:['200g Hirschsteak','Gemischter Blattsalat','1 EL Balsamico','1 TL Olivenöl','Salz, Rosmarin'],steps:'Steak 3 Min. je Seite scharf anbraten, ruhen lassen. Salat mit Balsamico und Öl anmachen. Steak in Scheiben auf dem Salat servieren.'},
+  {title:'Rinderstreifen mit Brokkoli',time:'15 Min.',tags:['Rind','gemüsereich','schnell'],ingredients:['250g Rinderfilet in Streifen','300g Brokkoli','2 Knoblauchzehen','1 EL Sojasoße','Sesamöl'],steps:'Brokkoli 3 Min. blanchieren. Rinderstreifen mit Knoblauch scharf anbraten, Brokkoli dazu, mit Sojasoße und Sesamöl abschmecken.'},
+  {title:'Wildschweingeschnetzeltes',time:'20 Min.',tags:['Wild','würzig','sättigend'],ingredients:['250g Wildschwein geschnetzelt','1 Zwiebel','100g Champignons','2 EL Sauerrahm','Thymian, Wacholder, Salz'],steps:'Zwiebeln und Pilze anbraten, Fleisch dazu und scharf braten. Mit Sauerrahm und Gewürzen verfeinern, 5 Min. ziehen lassen.'},
+  {title:'Rindertatar-Salat',time:'10 Min.',tags:['Rind','roh','leicht'],ingredients:['200g frisches Rindertatar','Rucola','Kapern','1 Zitrone','Olivenöl','Salz, Pfeffer'],steps:'Rucola auf dem Teller anrichten. Tatar mit Zitronensaft, Öl und Kapern vermischen, auf dem Salat platzieren und sofort servieren.'},
+];
+
+async function fetchRecipe(){
+  const area=document.getElementById('recipe-area');
+  area.innerHTML='<div class="loading-recipe">KI denkt nach… 🥗</div>';
+  const avoidList=seenRecipes.slice(-10).join(', ');
+  try{
+    const ctrl=new AbortController();
+    const timeout=setTimeout(()=>ctrl.abort(),8000);
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      signal:ctrl.signal,
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:800,
+        messages:[{role:'user',content:`Schlage ein gesundes, schnelles Rezept vor. Wichtige Regeln: 1) Nur Wild oder Rindfleisch als Fleisch (oder vegetarisch). 2) Max. 20 Min. Zubereitung. 3) Gut zum Abnehmen, Fokus Bauch. 4) Auf keinen Fall eines dieser Rezepte vorschlagen: ${avoidList||'keine'}. Antworte NUR als reines JSON-Objekt, keine Backticks, kein Markdown: {"title":"...","time":"X Min.","tags":["..."],"ingredients":["...","..."],"steps":"2-3 Sätze Zubereitung."}`}]
+      })
+    });
+    clearTimeout(timeout);
+    const data=await resp.json();
+    let txt=(data.content||[]).map(i=>i.text||'').join('').trim();
+    txt=txt.replace(/^```[a-z]*\n?/,'').replace(/```$/,'').trim();
+    const recipe=JSON.parse(txt);
+    currentRecipe=recipe;
+    seenRecipes.push(recipe.title);
+    if(seenRecipes.length>20)seenRecipes=seenRecipes.slice(-20);
+    localStorage.setItem('eva-seen-recipes',JSON.stringify(seenRecipes));
+    renderRecipe(recipe,false);
+  }catch(e){
+    const unseen=FALLBACK_RECIPES.filter(r=>!seenRecipes.includes(r.title));
+    const pool=unseen.length?unseen:FALLBACK_RECIPES;
+    const recipe=pool[Math.floor(Math.random()*pool.length)];
+    currentRecipe=recipe;
+    seenRecipes.push(recipe.title);
+    localStorage.setItem('eva-seen-recipes',JSON.stringify(seenRecipes));
+    renderRecipe(recipe,false);
+  }
+}
+function renderRecipe(r,liked){
+  document.getElementById('recipe-area').innerHTML=`<div class="recipe-card ${liked?'liked':''}">
+    <div class="recipe-title">${r.title}</div>
+    <div class="recipe-meta">⏱ ${r.time} &nbsp;·&nbsp; ${(r.tags||[]).join(' · ')}</div>
+    <div class="recipe-body">
+      <strong style="color:var(--gold);font-size:12px">ZUTATEN</strong><br>${(r.ingredients||[]).map(i=>'• '+i).join('<br>')}
+      <br><br><strong style="color:var(--gold);font-size:12px">ZUBEREITUNG</strong><br>${r.steps}
+    </div>
+    <div class="recipe-actions">
+      <button class="btn-like ${liked?'liked':''}" onclick="likeRecipe()">${liked?'♥ Gespeichert':'♡ Speichern'}</button>
+      <button class="btn-new" onclick="fetchRecipe()">Neues Rezept →</button>
+    </div>
+  </div>`;
+  renderSaved();
+}
+function likeRecipe(){
+  if(!currentRecipe)return;
+  if(!savedRecipes.find(r=>r.title===currentRecipe.title)){savedRecipes.push(currentRecipe);localStorage.setItem('eva-recipes',JSON.stringify(savedRecipes));}
+  renderRecipe(currentRecipe,true);
+}
+function renderSaved(){
+  const area=document.getElementById('saved-area');
+  if(!savedRecipes.length){area.innerHTML='';return;}
+  area.innerHTML=`<div class="food-section-title">♥ Gespeicherte Rezepte</div>`+
+    savedRecipes.map((r,i)=>`<div class="recipe-card liked">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><div class="recipe-title">${r.title}</div><div class="recipe-meta">⏱ ${r.time}</div></div>
+        <button onclick="deleteSaved(${i})" style="background:transparent;border:none;color:var(--text2);cursor:pointer;font-size:18px">×</button>
+      </div>
+      <div class="recipe-body">${(r.ingredients||[]).map(x=>'• '+x).join('<br>')}<br><br>${r.steps}</div>
+    </div>`).join('');
+}
+function deleteSaved(i){savedRecipes.splice(i,1);localStorage.setItem('eva-recipes',JSON.stringify(savedRecipes));renderSaved();}
+
+// TRACKING CHARTS
+const CHART_OPTS={responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#a89e7e',font:{size:11},boxWidth:12}}},scales:{x:{ticks:{color:'#a89e7e',font:{size:10},maxRotation:45},grid:{color:'rgba(255,255,255,0.05)'}},y:{ticks:{color:'#a89e7e',font:{size:10}},grid:{color:'rgba(255,255,255,0.05)'},beginAtZero:true}}};
+const COLORS=['#e8c97a','#6dbf88','#7eb8e8','#e88','#b87ee8'];
+function makeChart(id,labels,datasets){
+  if(chartInstances[id])chartInstances[id].destroy();
+  const ctx=document.getElementById(id).getContext('2d');
+  chartInstances[id]=new Chart(ctx,{type:'line',data:{labels,datasets:datasets.map((d,i)=>({label:d.label,data:d.data,borderColor:COLORS[i%5],backgroundColor:'transparent',tension:.3,pointRadius:4,pointBackgroundColor:COLORS[i%5],spanGaps:true}))},options:JSON.parse(JSON.stringify(CHART_OPTS))});
+}
+function buildCharts(){
+  const walkIds=['mi1','fr1'];
+  const walkDates=[...new Set(walkIds.flatMap(id=>(exLogs[id]||[]).map(e=>e.date)))].sort();
+  makeChart('chart-walk',walkDates,walkIds.map((id,i)=>{const by={};(exLogs[id]||[]).forEach(e=>by[e.date]=e.val);return {label:i===0?'Mi-Walk':'Fr-Walk',data:walkDates.map(d=>by[d]??null)};}));
+
+  const exIds=['mi2','mi3','mi4','mi5','mi6','fr2','fr3','fr4','fr5','fr6'];
+  const allEx=PLAN.flatMap(d=>d.exercises);
+  const exDates=[...new Set(exIds.flatMap(id=>(exLogs[id]||[]).map(e=>e.date)))].sort();
+  const exDS=exIds.filter(id=>exLogs[id]&&exLogs[id].length).map(id=>{const ex=allEx.find(e=>e.id===id);const by={};(exLogs[id]||[]).forEach(e=>by[e.date]=e.val);return {label:ex?ex.name.split(' ')[0]:id,data:exDates.map(d=>by[d]??null)};});
+  makeChart('chart-ex',exDates,exDS.length?exDS:[{label:'Keine Daten',data:[]}]);
+
+  const swimIds=['so1','so2'];
+  const swimDates=[...new Set(swimIds.flatMap(id=>(exLogs[id]||[]).map(e=>e.date)))].sort();
+  makeChart('chart-swim',swimDates,swimIds.map((id,i)=>{const by={};(exLogs[id]||[]).forEach(e=>by[e.date]=e.val);return {label:i===0?'Rückenschwimmen':'Kraulen',data:swimDates.map(d=>by[d]??null)};}));
+
+  const wDates=[...weightLog].reverse().map(e=>e.d),wVals=[...weightLog].reverse().map(e=>e.w);
+  makeChart('chart-weight',wDates,[{label:'Gewicht (kg)',data:wVals}]);
+}
+
+// PHOTOS
+let currentSlot=0;
+function triggerUpload(slot){currentSlot=slot;document.getElementById('file-input').click();}
+document.getElementById('file-input').addEventListener('change',function(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{const slot=document.getElementById('slot-'+currentSlot);let img=slot.querySelector('img');if(!img){img=document.createElement('img');slot.appendChild(img);}img.src=ev.target.result;};
+  reader.readAsDataURL(file);this.value='';
+});
+function removePhoto(e,slot){e.stopPropagation();const el=document.getElementById('slot-'+slot);const img=el.querySelector('img');if(img)img.remove();}
+
+// WEIGHT
+function logWeight(){
+  const val=parseFloat(document.getElementById('weight-input').value);
+  if(!val||val<30||val>200)return;
+  weightLog.unshift({w:val,d:new Date().toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'2-digit'})});
+  localStorage.setItem('eva-weights',JSON.stringify(weightLog));
+  document.getElementById('weight-input').value='';
+  updateStats();if(chartsBuilt)buildCharts();
+}
+function updateStats(){
+  if(!weightLog.length){['stat-current','stat-start','stat-diff'].forEach(id=>document.getElementById(id).textContent='—');return;}
+  const cur=weightLog[0].w,start=weightLog[weightLog.length-1].w,diff=cur-start;
+  document.getElementById('stat-current').textContent=cur.toFixed(1);
+  document.getElementById('stat-start').textContent=start.toFixed(1);
+  const d=document.getElementById('stat-diff');
+  d.textContent=(diff>0?'+':'')+diff.toFixed(1);
+  d.style.color=diff<0?'#6dbf88':diff>0?'#e88':'var(--text2)';
+}
+
+buildCountdown();
+buildTraining();
+buildStreaks();
+updateStats();
+</script>
+</body>
+</html>
