@@ -189,7 +189,10 @@ input[type=file]{display:none}
           <h3>EVAlution als Serie</h3>
           <div class="chart-wrap"><canvas id="chart-streaks"></canvas></div>
         </div>
-        <div class="food-section-title">🍽️ Rezept des Tages</div>
+        <div class="food-section-title" style="display:flex;justify-content:space-between;align-items:center">
+          <span>🍽️ Rezept des Tages</span>
+          <button onclick="resetSeenRecipes()" style="background:transparent;border:1px solid rgba(201,168,76,0.3);border-radius:6px;color:var(--text2);font-size:11px;padding:3px 8px;cursor:pointer">Verlauf löschen</button>
+        </div>
         <div id="recipe-area"><div class="loading-recipe">Lade Rezept…</div></div>
         <div id="saved-area"></div>
       </div>
@@ -482,7 +485,12 @@ const FALLBACK_RECIPES=[
   {title:'Rinderstreifen mit Brokkoli',time:'15 Min.',tags:['Rind','gemüsereich','schnell'],ingredients:['250g Rinderfilet in Streifen','300g Brokkoli','2 Knoblauchzehen','1 EL Sojasoße','Sesamöl'],steps:'Brokkoli 3 Min. blanchieren. Rinderstreifen mit Knoblauch scharf anbraten, Brokkoli dazu, mit Sojasoße und Sesamöl abschmecken.'},
   {title:'Wildschweingeschnetzeltes',time:'20 Min.',tags:['Wild','würzig','sättigend'],ingredients:['250g Wildschwein geschnetzelt','1 Zwiebel','100g Champignons','2 EL Sauerrahm','Thymian, Wacholder, Salz'],steps:'Zwiebeln und Pilze anbraten, Fleisch dazu und scharf braten. Mit Sauerrahm und Gewürzen verfeinern, 5 Min. ziehen lassen.'},
   {title:'Rindertatar-Salat',time:'10 Min.',tags:['Rind','roh','leicht'],ingredients:['200g frisches Rindertatar','Rucola','Kapern','1 Zitrone','Olivenöl','Salz, Pfeffer'],steps:'Rucola auf dem Teller anrichten. Tatar mit Zitronensaft, Öl und Kapern vermischen, auf dem Salat platzieren und sofort servieren.'},
+
+  {title:'Griechischer Salat mit Hüttenkäse',time:'10 Min.',tags:['vegetarisch','leicht','frisch'],ingredients:['200g Hüttenkäse','2 Tomaten','1 Gurke','Oliven','Oregano','Olivenöl, Zitrone'],steps:'Gemüse grob würfeln, mit Oliven in einer Schüssel mischen. Hüttenkäse darüber, mit Olivenöl, Zitronensaft und Oregano beträufeln.'},
+  {title:'Zucchini-Omelett',time:'15 Min.',tags:['vegetarisch','eiweißreich','schnell'],ingredients:['3 Eier','1 Zucchini','1 Knoblauchzehe','Frische Kräuter','Salz, Pfeffer','etwas Öl'],steps:'Zucchini raspeln und ausdrücken. Mit Eiern, Knoblauch und Kräutern verquirlen. In der Pfanne bei mittlerer Hitze 4 Min. je Seite goldbraun braten.'},
 ];
+
+function resetSeenRecipes(){seenRecipes=[];localStorage.setItem('eva-seen-recipes',JSON.stringify(seenRecipes));fetchRecipe();}
 
 async function fetchRecipe(){
   const area=document.getElementById('recipe-area');
