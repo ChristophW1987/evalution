@@ -521,9 +521,11 @@ async function fetchRecipe(){
   }catch(e){
     const unseen=FALLBACK_RECIPES.filter(r=>!seenRecipes.includes(r.title));
     const pool=unseen.length?unseen:FALLBACK_RECIPES;
+    if(!unseen.length) seenRecipes=[];
     const recipe=pool[Math.floor(Math.random()*pool.length)];
     currentRecipe=recipe;
     seenRecipes.push(recipe.title);
+    if(seenRecipes.length>FALLBACK_RECIPES.length) seenRecipes=seenRecipes.slice(-Math.floor(FALLBACK_RECIPES.length/2));
     localStorage.setItem('eva-seen-recipes',JSON.stringify(seenRecipes));
     renderRecipe(recipe,false);
   }
