@@ -495,6 +495,7 @@ function resetSeenRecipes(){
   seenRecipes=[];
   localStorage.removeItem('eva-seen-recipes');
   currentRecipe=null;
+  alert('Verlauf gelöscht. Rezepte gesamt: '+FALLBACK_RECIPES.length);
   document.getElementById('recipe-area').innerHTML='<div class="loading-recipe">Lade neues Rezept…</div>';
   setTimeout(fetchRecipe,100);
 }
