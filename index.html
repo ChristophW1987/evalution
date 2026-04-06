@@ -449,6 +449,9 @@ function buildStreaks(){
   }).join('');
 }
 function bumpStreak(id){
+  const challengeStart=new Date(2026,3,8);
+  const now=new Date();
+  if(now<challengeStart){alert('Die Challenge startet erst am 8. April!');return;}
   if(!streaks[id])streaks[id]={count:0,last:''};
   const s=streaks[id];if(s.last===todayStr())return;
   const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
@@ -581,6 +584,14 @@ function updateStats(){
   d.style.color=diff<0?'#6dbf88':diff>0?'#e88':'var(--text2)';
 }
 
+function setAppHeight(){
+  const h=window.innerHeight;
+  document.getElementById('app').style.height=h+'px';
+  document.getElementById('content').style.height=(h-document.getElementById('header').offsetHeight-document.getElementById('tabs').offsetHeight)+'px';
+}
+window.addEventListener('resize',setAppHeight);
+setAppHeight();
+
 buildCountdown();
 buildTraining();
 buildStreaks();
@@ -588,4 +599,3 @@ updateStats();
 </script>
 </body>
 </html>
-
