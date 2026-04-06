@@ -128,7 +128,7 @@ input[type=file]{display:none}
   <div id="header">
     <div class="app-title"><span>EVA</span>lution</div>
     <div class="app-subtitle">Gemeinsam durchstarten</div>
-    <div style="font-size:9px;color:rgba(168,158,126,0.4)">v2.0</div>
+    <div style="font-size:9px;color:rgba(168,158,126,0.4)">v2.1</div>
   </div>
   <div id="content">
     <div id="sec-motivation" class="section active">
@@ -175,6 +175,7 @@ input[type=file]{display:none}
         <div class="chart-card">
           <h3>EVAlution als Serie</h3>
           <div class="chart-wrap"><canvas id="chart-streaks"></canvas></div>
+          <button onclick="resetStreakHistory()" style="margin-top:10px;background:transparent;border:1px solid rgba(201,168,76,0.2);border-radius:6px;color:var(--text2);font-size:11px;padding:3px 8px;cursor:pointer">Chart zurücksetzen</button>
         </div>
         <div class="food-section-title" style="display:flex;justify-content:space-between;align-items:center">
           <span>🍽️ Rezept des Tages</span>
@@ -448,6 +449,12 @@ function buildStreaks(){
     </div>`;
   }).join('');
 }
+function resetStreakHistory(){
+  streakHistory={};
+  localStorage.removeItem('eva-streak-history');
+  buildStreakChart();
+}
+
 function bumpStreak(id){
   const challengeStart=new Date(2026,3,8);
   const now=new Date();
