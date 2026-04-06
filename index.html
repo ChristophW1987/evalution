@@ -339,9 +339,9 @@ function switchTab(name,btn){
 
 function buildCountdown(){
   const now=new Date();
-  const start=new Date(2026,3,1,0,0,0,0);
-  const end=new Date(2026,6,9,23,59,59,0);
-  document.getElementById('cd-dates').textContent='1. Apr – 09.07.2026';
+  const start=new Date(2026,3,8,0,0,0,0);
+  const end=new Date(2026,6,16,23,59,59,0);
+  document.getElementById('cd-dates').textContent='8. Apr – 16.07.2026';
   const num=document.getElementById('cd-number'),lbl=document.getElementById('cd-label'),bar=document.getElementById('cd-bar');
   const msDay=1000*60*60*24;
   if(now<start){
