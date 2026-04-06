@@ -128,7 +128,7 @@ input[type=file]{display:none}
   <div id="header">
     <div class="app-title"><span>EVA</span>lution</div>
     <div class="app-subtitle">Gemeinsam durchstarten</div>
-    <div style="font-size:9px;color:rgba(168,158,126,0.4)">v2.1</div>
+    <div style="font-size:9px;color:rgba(168,158,126,0.4)">v2.1 — <span id="debug-h"></span></div>
   </div>
   <div id="content">
     <div id="sec-motivation" class="section active">
@@ -593,6 +593,7 @@ function updateStats(){
 
 function setAppHeight(){
   const h=window.innerHeight;
+  document.getElementById('debug-h').textContent='h:'+h+'px';
   document.getElementById('app').style.height=h+'px';
   document.getElementById('content').style.height=(h-document.getElementById('header').offsetHeight-document.getElementById('tabs').offsetHeight)+'px';
 }
