@@ -593,11 +593,24 @@ function updateStats(){
 
 function setAppHeight(){
   const h=window.innerHeight;
-  document.getElementById('debug-h').textContent='h:'+h+'px';
-  document.getElementById('app').style.height=h+'px';
-  document.getElementById('content').style.height=(h-document.getElementById('header').offsetHeight-document.getElementById('tabs').offsetHeight)+'px';
+  const header=document.getElementById('header');
+  const tabs=document.getElementById('tabs');
+  const app=document.getElementById('app');
+  const content=document.getElementById('content');
+  app.style.height=h+'px';
+  app.style.maxHeight=h+'px';
+  app.style.overflow='hidden';
+  // Wait for tabs to render then calculate
+  requestAnimationFrame(()=>{
+    const contentH=h-header.offsetHeight-tabs.offsetHeight;
+    content.style.height=contentH+'px';
+    content.style.maxHeight=contentH+'px';
+    document.getElementById('debug-h').textContent='h:'+h+' hdr:'+header.offsetHeight+' tab:'+tabs.offsetHeight+' cnt:'+contentH;
+  });
 }
 window.addEventListener('resize',setAppHeight);
+window.addEventListener('load',setAppHeight);
+setTimeout(setAppHeight,300);
 setAppHeight();
 
 buildCountdown();
