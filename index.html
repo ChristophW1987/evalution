@@ -383,7 +383,8 @@ function buildTraining(){
         </div>
         ${day.exercises.map(ex=>{
           const logs=exLogs[ex.id]||[];
-          const recent=logs.slice(-3);
+          const thisWeek=logs.filter(h=>isThisWeek(h.date));
+          const recent=thisWeek.slice(-3);
           return `<div class="exercise-item">
             <div class="ex-row1">
               <div class="ex-check ${checks[ex.id]?'checked':''}" onclick="toggleCheck('${ex.id}','${day.id}')">
@@ -436,6 +437,24 @@ function pauseTimer(id){if(!timers[id])return;clearInterval(timers[id].iv);timer
 function resetTimer(id){if(timers[id]){clearInterval(timers[id].iv);timers[id]={secs:0,running:false,iv:null};}const el=document.getElementById('timer-'+id);if(el)el.textContent='00:00';}
 
 function todayStr(){return new Date().toISOString().slice(0,10);}
+
+function getMonday(d){
+  const date=new Date(d);
+  const day=date.getDay();
+  const diff=date.getDate()-day+(day===0?-6:1);
+  date.setDate(diff);
+  date.setHours(0,0,0,0);
+  return date;
+}
+function isThisWeek(dateStr){
+  const parts=dateStr.split('.');
+  if(parts.length<2)return false;
+  const now=new Date();
+  const monday=getMonday(now);
+  const sunday=new Date(monday);sunday.setDate(monday.getDate()+6);sunday.setHours(23,59,59,999);
+  const d=new Date(now.getFullYear(),parseInt(parts[1])-1,parseInt(parts[0]));
+  return d>=monday&&d<=sunday;
+}
 function buildStreaks(){
   document.getElementById('streak-grid').innerHTML=STREAKS_DEF.map(s=>{
     const d=streaks[s.id]||{count:0,last:''};
